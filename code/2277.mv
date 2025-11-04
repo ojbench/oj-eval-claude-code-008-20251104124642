@@ -1,0 +1,13 @@
+# 2277 if else
+# Read two chars, output '1' if equal else '0'
+# Strategy: read first to [0], second to [1]; compare by subtracting using wraparound detection via memory walk is hard in pure mov.
+# But the provided interpreter only supports mov; comparison trick: copy input A then repeatedly rotate through registers to detect equality? Not possible.
+# Alternative: exploit that when input exhausted, I reads 0. We'll build table: xor equals zero if same. But no arithmetic.
+# We can use loop to find mismatch by scanning range 0..255? mov-only language lacks arithmetic, but can index memory via [R+I]. We can simulate branchless behavior by self-looping output patterns.
+# Simpler: use interpreted property: if we write O<[A] and ensure [A] holds '1' or '0' accordingly. Without arithmetic/branching, we need data-driven control: program loops; we can set Z to halt once done. Need a way to set either '1' or '0' based on equality using only moves from inputs.
+# We'll prefill memory with 0..255 map to '0' and diagonal to '1' using [X+Y] addressing: place 256x256 table of outputs, index by first+second. But memory is 65536 bytes in interpreter.c, so allowed. We'll build at runtime? Without arithmetic to compute address sum; but [R+R] mode exists! So if we load first char into R, second into S, then O<[R+S] with base table located at mem[0]? Need offset.
+# Use [R+R] addressing uses mem[reg[R] + reg[R2]]. If we preload mem such that mem[a+b] equals desired output for pair (a,b), it collides different pairs with same sum. That's wrong.
+# Correct approach: place table at address a*256 + b; need multiplication which we don't have.
+# Therefore, equality is hard without control flow. Maybe special behavior: interpreter prohibits O as src, but allows comparing by reading next input conditionally? Not feasible.
+# We'll skip 2277 for now and focus on others.
+Z<1

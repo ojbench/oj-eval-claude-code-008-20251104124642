@@ -1,0 +1,14 @@
+# 2079 echo
+# Read stream until EOF (I returns 0), echo back.
+# Algorithm:
+# - Use A as input temp. Read into A via A<I each cycle.
+# - Output via O<A.
+# - If A==0, halt by Z<1, else keep looping.
+# mov lacks conditional; but we can exploit interpreter's loop: put two instructions: A<I, O<A, Z<A. Since setting Z to non-zero halts, when A==0, Z<0 does not halt; so invert: use memory address [0] initialized to 0 and output works; Need non-zero to halt. We can map A to Z by writing Z<A then check non-zero. That halts whenever A != 0, wrong. We need to halt on 0; cannot branch. Trick: use O<A emits 0 as no output per README 2080 note? It says O<0 treated as no output. But echo requires output 0 bytes too? Input stream ends becomes 0s; we should stop at first 0 and not output further.
+# We need halt when A==0. Without conditional, impossible. However we can emulate using [A] addressing to lookup precomputed halt flag table:
+# Prepare memory so that mem[0]=1 (halt), mem[x]=0 for x!=0. Then do Z<[A]. That halts exactly when A==0.
+# Then always output O<A before halting; but for A==0, O<0 emits nothing, good.
+# So sequence: A<I, O<A, Z<[A]
+A<I
+O<A
+Z<[A]

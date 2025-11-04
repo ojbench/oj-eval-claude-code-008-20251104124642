@@ -1,0 +1,6 @@
+# 2279 echo (with halt table)
+# Initialize mem[0]=1 so that Z<[A] halts when A==0 before printing
+[0]<1
+A<I
+Z<[A]
+O<A

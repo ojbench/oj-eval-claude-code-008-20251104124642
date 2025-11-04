@@ -1,0 +1,18 @@
+# 2278 i++
+# Read ASCII '0'..'9' and output (digit+1) mod 10.
+# Approach: use lookup table mem[32..41] mapping input char to output char.
+# Place outputs at addresses equal to input code. Then O<[A] emits mapped value.
+# Initialize table for '0'..'9': mem[48]='1', ... mem[57]='0'
+[48]<49
+[49]<50
+[50]<51
+[51]<52
+[52]<53
+[53]<54
+[54]<55
+[55]<56
+[56]<57
+[57]<48
+A<I
+O<[A]
+Z<1

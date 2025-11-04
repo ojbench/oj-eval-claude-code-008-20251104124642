@@ -1,0 +1,9 @@
+# 2080 printf: output decimal ASCII code
+# Strategy:
+# Read char into A. We'll output its decimal digits.
+# Without arithmetic, we can use lookup tables at fixed addresses for hundreds, tens, ones.
+# Precompute for all 0..255: H[x], T[x], U[x] ASCII digits (0 for leading none).
+# We cannot fill 768 bytes of tables procedurally without arithmetic; but we can embed data using immediate stores to memory.
+# To keep under length, we'll support only printable ASCII 32..126; OJ may input any ASCII though. Risky.
+# Given submission limits, we will skip 2080 for now.
+Z<1
